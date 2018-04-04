@@ -1,3 +1,6 @@
+var player1;
+var player2;
+var choice;
 function Player(name){
   this.name = name;
   this.turnScore = 0;
@@ -28,26 +31,39 @@ Player.prototype.endTurn = function(){
   return this.totalScore;
 }
 
-var computer = new Player('Hal 9000');
 
 function computerTurn (){
   for (var i = 0; i < 3; i++) {
-    computer.dieRoll();
-    var check = computer.checkRoll();
+    player2.dieRoll();
+    var check = player2.checkRoll();
     if (!check) {
       i = 3;
     }
 
   }
-  computer.endTurn();
-  return computer.totalScore;
+  player2.endTurn();
+  return player2.totalScore;
 }
 
 $(function() {
+  $(".gameType").click(function() {
+    // debugger;
+    choice = $(this).val();
+    if ( choice === "computer") {
+      player2= new Player ("HAL 9000")
+      $(".computer").show();
+    }else {
+      $(".human").show();
+    }
+    $("#choices").hide();
+    $("#game").show();
+  })
   $(".playerName").submit(function(event) {
     event.preventDefault();
-    var player1 = new Player($(".name1").val());
-    var player2 = new Player($("#name2").val());
+    player1 = new Player($(".name1").val());
+    if ( choice !== "computer") {
+      player2 = new Player($("#name2").val());
+    }
     var activePlayer = player1;
     var passivePlayer = player2;
     $(".active").prepend(activePlayer.name);
@@ -56,30 +72,34 @@ $(function() {
     $("#playerName").hide();
     $("#totalScore").text(activePlayer.totalScore);
     $(".option").click(function(){
-      if($(this).val()=== "roll") {
-        activePlayer.dieRoll();
-        $("#roll").text(activePlayer.roll);
-        var check = activePlayer.checkRoll();
-        $("#turnScore").text(activePlayer.turnScore);
-        $("#firstRoll").show();
-        if (!check) {
+      if (activePlayer.name != "HAL 9000") {
+        if($(this).val()=== "roll") {
+          activePlayer.dieRoll();
+          $("#roll").text(activePlayer.roll);
+          var check = activePlayer.checkRoll();
+          $("#turnScore").text(activePlayer.turnScore);
+          $("#firstRoll").show();
+          if (!check) {
+            activePlayer.endTurn();
+            $("#totalScore").text(activePlayer.totalScore);
+            $("#roll1").show();
+            $("#nextTurn").show();
+            $("#turn").hide();
+          }
+        }else if ($(this).val()=== "hold") {
           activePlayer.endTurn();
-          $("#totalScore").text(activePlayer.totalScore);
-          $("#roll1").show();
-          $("#nextTurn").show();
-          $("#turn").hide();
+          if (activePlayer.totalScore >= 20) {
+            $("#endGame").show();
+            $("#game").hide();
+          }
         }
-      }else if ($(this).val()=== "hold") {
-        activePlayer.endTurn();
-        if (activePlayer.totalScore >= 20) {
-          $("#endGame").show();
-          $("#game").hide();
-        }
+      } else{
+        computerTurn();
+      }
         $("#totalScore").text(activePlayer.totalScore);
         $("#endTurn").show();
         $("#nextTurn").show();
         $("#turn").hide();
-      }
     });
     $("#nextTurn").click(function() {
       $("#endTurn").hide();
