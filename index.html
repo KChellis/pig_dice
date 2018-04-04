@@ -20,7 +20,7 @@
         <div class="human">
           <form class="playerName" >
             <label for="name">What is the first player's name?</label>
-            <input type="text" class="name1">
+            <input type="text" id="name1">
             <label for="name">What is the second player's name?</label>
             <input type="text" id="name2">
             <button value="human" type="submit" name="button">Submit</button>
@@ -29,7 +29,7 @@
         <div class="computer">
           <form class="playerName" >
             <label for="name">What your name?</label>
-            <input type="text" class="name1">
+            <input type="text" id="name">
             <button type="submit" name="button" value="computer" >Submit</button>
           </form>
         </div>
@@ -40,15 +40,25 @@
             <button class="option" type="button" name="option" value="hold">Hold</button>
             <button class="option" type="button" name="option" value="roll">Roll</button>
           </div>
+            <button id="hal" class="option" type="button" name="option" value="computer">Hal's Turn</button>
           <p id="roll1">You rolled 1 your turn is over</p>
           <p id="endTurn">You have ended your turn</p>
           <button id="nextTurn" type="button" name="button">Next Turn</button>
-          <ul><span class="active"></span>'s Total Score:
-            <li id="totalScore1"></li>
-          </ul>
-          <ul ><span id="passive"></span>'s Total Score:
-            <li id="totalScore2"></li>
-          </ul>
+          <div class="row">
+            <div class="col-md-6 card card-body">
+              <p class="card-header"><span class="active"></span>'s Total Score:
+                </p>
+              <ul>
+                <li id="totalScore1"></li>
+              </ul>
+            </div>
+            <div class="col-md-6 card card-body">
+              <p class="card-header"><span id="passive"></span>'s Total Score:</p>
+              <ul >
+                <li id="totalScore2"></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       <div id="endGame">
