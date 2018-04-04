@@ -1,25 +1,26 @@
+//set global variables
 var player1;
 var player2;
 var choice;
 var name;
-var score;
+var totalScore;
 var winScore = 20;
-function Player(name){
+function Player(name){ //player object constructor
   this.name = name;
   this.turnScore = 0;
   this.totalScore = 0;
   this.roll = 0
 }
- Player.prototype.dieRoll = function(){
+ Player.prototype.dieRoll = function(){ //player die roll, rolls a value from 1 to 6
   this.roll = Math.floor(Math.random() * 6) + 1;
   return this.roll;
-}
-Player.prototype.storeRoll = function(){
+} //end of die roll
+Player.prototype.storeRoll = function(){ //add the roll to the current turn score
   this.turnScore += this.roll;
-  this.roll = 0
+  this.roll = 0 //set the roll back to 0 so it doesn't accumulate
   return this.turnScore;
-}
-Player.prototype.checkRoll = function(){
+} //end of storeRoll
+Player.prototype.checkRoll = function(){ //checks to see if the player rolled a 1 and sets the turn score to 0 if so
   if (this.roll === 1) {
     this.turnScore = 0
     return false;
@@ -27,15 +28,15 @@ Player.prototype.checkRoll = function(){
     this.storeRoll();
     return true
   }
-}
-Player.prototype.endTurn = function(){
+} //end of checkRoll
+Player.prototype.endTurn = function(){ //ends the player's turn by adding the turn score to the total score
   this.totalScore += this.turnScore;
   this.turnScore = 0;
   return this.totalScore;
-}
+} //end of end turn
 
 
-function computerTurn (){
+function computerTurn (){ //simple AI that will roll the die 3 times, unless one of those rolls is a one
   for (var i = 0; i < 3; i++) {
     player2.dieRoll();
     console.log(player2.roll);
@@ -47,14 +48,16 @@ function computerTurn (){
   }
   player2.endTurn();
   return player2.totalScore;
-}
+} //end of computerTurn
 
+
+//front end
 $(function() {
-  $(".gameType").click(function() {
+  $(".gameType").click(function() { //choose to play with a friend or the computer
     // debugger;
     choice = $(this).val();
     if ( choice === "computer") {
-      player2= new Player ("HAL 9000")
+      player2= new Player ("HAL 9000") //create a new player object for the computer
       $(".computer").show();
       name = "#name"
     }else {
@@ -64,58 +67,67 @@ $(function() {
     $("#choices").hide();
     $("#game").show();
   })
-  $(".playerName").submit(function(event) {
+  $(".playerName").submit(function(event) { //submit the player names
     event.preventDefault();
-    player1 = new Player($(name).val());
+    player1 = new Player($(name).val()); //create a player object for player1
     if ( choice !== "computer") {
-      player2 = new Player($("#name2").val());
+      player2 = new Player($("#name2").val()); //create a player object for player2 if they are not s computer
     }
     var activePlayer = player1;
     var passivePlayer = player2;
-    $(".active").prepend(activePlayer.name);
-    $("#passive").prepend(passivePlayer.name);
+    $(".p1").prepend(activePlayer.name);
+    $(".p2").prepend(passivePlayer.name);
     $("#hidden-game").show();
     $(".playerName").hide();
     $("#totalScore1").text(activePlayer.totalScore);
     $("#totalScore2").text(passivePlayer.totalScore);
-    $(".option").click(function(){
-      if($(this).val()=== "roll") {
+    $(".active").text(activePlayer.name);
+    $(".option").click(function(){ //handles the choice of rolling or holding player score
+      if (activePlayer === player1) {
+        totalScore = "#totalScore1";
+      } else {
+        totalScore = "#totalScore2";
+      }
+      if($(this).val()=== "roll") { //handles if the player chooses to roll
         activePlayer.dieRoll();
+        $("#runningScore").prepend("<li>" + activePlayer.roll + "</li>");
         $("#roll").text(activePlayer.roll);
         var check = activePlayer.checkRoll();
-        $("#turnScore").text(activePlayer.turnScore);
+        $(".turnScore").text(activePlayer.turnScore);
         $("#firstRoll").show();
         if (!check) {
           activePlayer.endTurn();
-          $("#totalScore1").text(activePlayer.totalScore);
+          $("#runningScore").text("");
+          $("#runningScore").prepend("<li>Total: <span class ='turnScore'></span></li>");
+          $(totalScore).text(activePlayer.totalScore);
           $("#roll1").show();
           $("#nextTurn").show();
           $("#turn").hide();
         }
-      }else if ($(this).val()=== "hold") {
+      }else if ($(this).val()=== "hold") { //handles if the player chooses to hold
         activePlayer.endTurn();
-        if (activePlayer.totalScore >= winScore) {
+        if (activePlayer.totalScore >= winScore) { //checks active player's score to see if they win
           $("#endGame").show();
           $("#game").hide();
         }
-        $("#totalScore1").text(activePlayer.totalScore);
+        $(totalScore).text(activePlayer.totalScore);
         $("#endTurn").show();
         $("#nextTurn").show();
         $("#turn").hide();
-      }else if ($(this).val()=== "computer") {
+      }else if ($(this).val()=== "computer") { //handles computer's turn
         $("#nextTurn").show();
         $("#turn").hide();
         $("#hal").hide();
         computerTurn();
-        $("#totalScore1").text(activePlayer.totalScore);
-        if (activePlayer.totalScore >= winScore) {
+        $(totalScore).text(activePlayer.totalScore);
+        if (activePlayer.totalScore >= winScore) { //checks active player's score to see if they win
           $("#endGame").show();
           $("#game").hide();
         }
       }
 
     });
-    $("#nextTurn").click(function() {
+    $("#nextTurn").click(function() { //changes the active player
       if (choice === "computer" && activePlayer === player1) {
         $("#endTurn").hide();
         $("#nextTurn").hide();
@@ -134,11 +146,8 @@ $(function() {
       activePlayer=passivePlayer;
       passivePlayer = temp;
       $(".active").text(activePlayer.name);
-      $("#passive").text(passivePlayer.name);
-      $("#totalScore1").text(activePlayer.totalScore);
-      $("#totalScore2").text(passivePlayer.totalScore);
     });
-    $("#newGame").click(function(){
+    $("#newGame").click(function(){ //starts a new game
       location.reload();
     });
   });
