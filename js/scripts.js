@@ -5,6 +5,8 @@ var choice;
 var name;
 var totalScore;
 var winScore = 20;
+var apTotal = activePlayer.totalScore;
+var apTurn = activePlayer.turnScore;
 function Player(name){ //player object constructor
   this.name = name;
   this.turnScore = 0;
@@ -38,23 +40,37 @@ Player.prototype.endTurn = function(){ //ends the player's turn by adding the tu
 
 function computerTurn (){ //simple AI that will roll the die 3 times, unless one of those rolls is a one
   for (var i = 0; i < 3; i++) {
-    player2.dieRoll();
-    console.log(player2.roll);
-    var check = player2.checkRoll();
+    activePlayer.dieRoll();
+    var check = activePlayer.checkRoll();
     if (!check) {
       i = 3;
     }
 
   }
-  player2.endTurn();
-  return player2.totalScore;
+  activePlayer.endTurn();
+  return apTotal;
 } //end of computerTurn
 
+function computerTurnHard () {
+  var rollAgain;
+  for (var i = 0; i < 100; i++) {
+
+    activePlayer.dieRoll();
+    var check = activePlayer.checkRoll();
+
+    if (apTotal < 70 && apTurn >= 20) {
+      i = 100;
+    } else if (passivePlayer.totalScore < 50 && apTurn >= 10) {
+      i = 100;
+    }  else if (apTotal + apTurn >= winScore){
+      i = 100;
+    }
+  }
+}
 
 //front end
 $(function() {
   $(".gameType").click(function() { //choose to play with a friend or the computer
-    // debugger;
     choice = $(this).val();
     if ( choice === "computer") {
       player2= new Player ("HAL 9000") //create a new player object for the computer
@@ -79,7 +95,7 @@ $(function() {
     $(".p2").prepend(passivePlayer.name);
     $("#hidden-game").show();
     $(".playerName").hide();
-    $("#totalScore1").text(activePlayer.totalScore);
+    $("#totalScore1").text(apTotal);
     $("#totalScore2").text(passivePlayer.totalScore);
     $(".active").text(activePlayer.name);
     $(".option").click(function(){ //handles the choice of rolling or holding player score
@@ -93,24 +109,24 @@ $(function() {
         $("#runningScore").prepend("<li>" + activePlayer.roll + "</li>");
         $("#roll").text(activePlayer.roll);
         var check = activePlayer.checkRoll();
-        $(".turnScore").text(activePlayer.turnScore);
+        $(".turnScore").text(apTurn);
         $("#firstRoll").show();
         if (!check) {
           activePlayer.endTurn();
           $("#runningScore").text("");
           $("#runningScore").prepend("<li>Total: <span class ='turnScore'></span></li>");
-          $(totalScore).text(activePlayer.totalScore);
+          $(totalScore).text(apTotal);
           $("#roll1").show();
           $("#nextTurn").show();
           $("#turn").hide();
         }
       }else if ($(this).val()=== "hold") { //handles if the player chooses to hold
         activePlayer.endTurn();
-        if (activePlayer.totalScore >= winScore) { //checks active player's score to see if they win
+        if (apTotal >= winScore) { //checks active player's score to see if they win
           $("#endGame").show();
           $("#game").hide();
         }
-        $(totalScore).text(activePlayer.totalScore);
+        $(totalScore).text(apTotal);
         $("#endTurn").show();
         $("#nextTurn").show();
         $("#turn").hide();
@@ -119,8 +135,8 @@ $(function() {
         $("#turn").hide();
         $("#hal").hide();
         computerTurn();
-        $(totalScore).text(activePlayer.totalScore);
-        if (activePlayer.totalScore >= winScore) { //checks active player's score to see if they win
+        $(totalScore).text(apTotal);
+        if (apTotal >= winScore) { //checks active player's score to see if they win
           $("#endGame").show();
           $("#game").hide();
         }
