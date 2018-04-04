@@ -9,6 +9,21 @@
     <title></title>
   </head>
   <body>
-
+    <div class="container-fluid">
+      <h1>Pig Dice!</h1>
+      <form id="playerName" >
+        <label for="name">What is your name?</label>
+        <input type="text" id="name">
+        <button type="submit" name="button">Submit</button>
+      </form>
+      <div id="hidden-game">
+        <p>You rolled <span id="roll"></span> your turn score is <span id="turnScore"></span> would you like to hold or roll again?</p>
+        <button type="button" name="option" value="hold">Hold</button>
+        <button type="button" name="option" value="roll">Roll again</button>
+        <ul> Total Score:
+          <li id="totalScore"></li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>

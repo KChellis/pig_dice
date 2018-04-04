@@ -29,3 +29,18 @@ Player.prototype.endTurn = function(){
   this.turnScore = 0;
   return this.totalScore;
 }
+
+var computer = new Player('Hal 9000');
+
+function computerTurn (){
+  for (var i = 0; i < 3; i++) {
+    computer.dieRoll();
+    var check = computer.checkRoll();
+    if (!check) {
+      i = 3;
+    }
+
+  }
+  computer.endTurn();
+  return computer.totalScore;
+}
