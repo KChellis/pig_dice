@@ -7,10 +7,16 @@ button {
   border-radius: 8px;
   margin-left: 2%;
   margin-bottom: 5%;
+  margin-top: 2%;
 }
 body{
   text-align: center;
+  background-image: url("../img/pig1.jpeg");
 }
 ul {
   list-style-type: none;
+}
+h1, h3, label, .runningScore{
+  background-color: rgb(244, 217, 230, .5);
+  margin: auto;
 }
