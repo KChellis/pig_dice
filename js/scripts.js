@@ -1,9 +1,31 @@
 function Player(name){
-  this.name = name
-  this.turnScore = 0
-  this.totalScore = 0
+  this.name = name;
+  this.turnScore = 0;
+  this.totalScore = 0;
+  this.roll = 0
 }
-function dieRoll(){
-  var roll = Math.floor(Math.random() * 6) + 1;
-  return roll;
+var player1= new Player("Kristen");
+ Player.prototype.dieRoll = function(){
+  this.roll = Math.floor(Math.random() * 6) + 1;
+  return this.roll;
+}
+Player.prototype.storeRoll = function(){
+  this.turnScore += this.roll;
+  this.roll = 0
+  return this.turnScore;
+}
+Player.prototype.checkRoll = function(){
+  if (this.roll === 1) {
+    this.turnScore = 0
+    return false;
+  }else{
+    this.storeRoll();
+    console.log(this.turnScore);
+    return true
+  }
+}
+Player.prototype.endTurn = function(){
+  this.totalScore += this.turnScore;
+  this.turnScore = 0;
+  return this.totalScore;
 }
