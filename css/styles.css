@@ -13,3 +13,12 @@
 #firstRoll {
   display: none;
 }
+#endGame {
+  display: none;
+}
+.human {
+  display: none;
+}
+.computer {
+  display: none;
+}

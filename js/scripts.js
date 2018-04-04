@@ -44,9 +44,9 @@ function computerTurn (){
 }
 
 $(function() {
-  $("#playerName").submit(function(event) {
+  $(".playerName").submit(function(event) {
     event.preventDefault();
-    var player1 = new Player($("#name1").val());
+    var player1 = new Player($(".name1").val());
     var player2 = new Player($("#name2").val());
     var activePlayer = player1;
     var passivePlayer = player2;
@@ -71,6 +71,10 @@ $(function() {
         }
       }else if ($(this).val()=== "hold") {
         activePlayer.endTurn();
+        if (activePlayer.totalScore >= 20) {
+          $("#endGame").show();
+          $("#game").hide();
+        }
         $("#totalScore").text(activePlayer.totalScore);
         $("#endTurn").show();
         $("#nextTurn").show();
@@ -90,6 +94,9 @@ $(function() {
       $("#passive").text(passivePlayer.name);
       $("#totalScore1").text(activePlayer.totalScore);
       $("#totalScore2").text(passivePlayer.totalScore);
+    });
+    $("#newGame").click(function(){
+      location.reload();
     });
   });
 });
