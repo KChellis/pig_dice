@@ -46,26 +46,50 @@ function computerTurn (){
 $(function() {
   $("#playerName").submit(function(event) {
     event.preventDefault();
-    var player1 = new Player($("#name").val());
-    $("ul").prepend(player1.name);
+    var player1 = new Player($("#name1").val());
+    var player2 = new Player($("#name2").val());
+    var activePlayer = player1;
+    var passivePlayer = player2;
+    $(".active").prepend(activePlayer.name);
+    $("#passive").prepend(passivePlayer.name);
     $("#hidden-game").show();
-    $("#totalScore").text(player1.totalScore);
+    $("#playerName").hide();
+    $("#totalScore").text(activePlayer.totalScore);
     $(".option").click(function(){
       if($(this).val()=== "roll") {
-        player1.dieRoll();
-        $("#roll").text(player1.roll);
-        var check = player1.checkRoll();
-        $("#turnScore").text(player1.turnScore);
+        activePlayer.dieRoll();
+        $("#roll").text(activePlayer.roll);
+        var check = activePlayer.checkRoll();
+        $("#turnScore").text(activePlayer.turnScore);
+        $("#firstRoll").show();
         if (!check) {
-          player1.endTurn();
-          $("#totalScore").text(player1.totalScore);
-          $("#endturn").show();
+          activePlayer.endTurn();
+          $("#totalScore").text(activePlayer.totalScore);
+          $("#roll1").show();
+          $("#nextTurn").show();
           $("#turn").hide();
         }
       }else if ($(this).val()=== "hold") {
-        player1.endTurn();
-        $("#totalScore").text(player1.totalScore);
+        activePlayer.endTurn();
+        $("#totalScore").text(activePlayer.totalScore);
+        $("#endTurn").show();
+        $("#nextTurn").show();
+        $("#turn").hide();
       }
-    })
+    });
+    $("#nextTurn").click(function() {
+      $("#endTurn").hide();
+      $("#nextTurn").hide();
+      $("#roll1").hide();
+      $("#turn").show();
+      $("#firstRoll").hide();
+      var temp =activePlayer;
+      activePlayer=passivePlayer;
+      passivePlayer = temp;
+      $(".active").text(activePlayer.name);
+      $("#passive").text(passivePlayer.name);
+      $("#totalScore1").text(activePlayer.totalScore);
+      $("#totalScore2").text(passivePlayer.totalScore);
+    });
   });
 });

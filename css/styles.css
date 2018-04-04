@@ -1,6 +1,15 @@
 #hidden-game {
   display: none;
 }
-#endturn {
+#endTurn {
+  display: none;
+}
+#roll1 {
+  display: none;
+}
+#nextTurn {
+  display: none;
+}
+#firstRoll {
   display: none;
 }

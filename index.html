@@ -12,22 +12,32 @@
     <div class="container-fluid">
       <h1>Pig Dice!</h1>
       <form id="playerName" >
-        <label for="name">What is your name?</label>
-        <input type="text" id="name">
+        <label for="name">What is the first player's name?</label>
+        <input type="text" id="name1">
+        <label for="name">What is the second player's name?</label>
+        <input type="text" id="name2">
         <button type="submit" name="button">Submit</button>
       </form>
       <div id="hidden-game">
         <div id="turn">
-          <p>You rolled <span id="roll"></span> your turn score is <span id="turnScore"></span> would you like to hold or roll again?</p>
+          <h3><span class="active"></span>'s turn:</h3>
+          <p id="firstRoll">You rolled <span id="roll"></span> your turn score is <span id="turnScore"></span> would you like to hold or roll again?</p>
           <button class="option" type="button" name="option" value="hold">Hold</button>
-          <button class="option" type="button" name="option" value="roll">Roll again</button>
+          <button class="option" type="button" name="option" value="roll">Roll</button>
         </div>
-        <div id="endturn">
-            <p>You rolled 1 your turn is over</p>
-        </div>
-        <ul>'s Total Score:
-          <li id="totalScore"></li>
+        <p id="roll1">You rolled 1 your turn is over</p>
+        <p id="endTurn">You have ended your turn</p>
+        <button id="nextTurn" type="button" name="button">Next Turn</button>
+        <ul><span class="active"></span>'s Total Score:
+          <li id="totalScore1"></li>
         </ul>
+        <ul ><span id="passive"></span>'s Total Score:
+          <li id="totalScore2"></li>
+        </ul>
+        <div class="endGame">
+          <p><span class="active"></span> Won!!!!</p>
+          <button id="newGame"type="button" name="button">New Game</button>
+        </div>
       </div>
     </div>
   </body>
