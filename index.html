@@ -17,10 +17,15 @@
         <button type="submit" name="button">Submit</button>
       </form>
       <div id="hidden-game">
-        <p>You rolled <span id="roll"></span> your turn score is <span id="turnScore"></span> would you like to hold or roll again?</p>
-        <button type="button" name="option" value="hold">Hold</button>
-        <button type="button" name="option" value="roll">Roll again</button>
-        <ul> Total Score:
+        <div id="turn">
+          <p>You rolled <span id="roll"></span> your turn score is <span id="turnScore"></span> would you like to hold or roll again?</p>
+          <button class="option" type="button" name="option" value="hold">Hold</button>
+          <button class="option" type="button" name="option" value="roll">Roll again</button>
+        </div>
+        <div id="endturn">
+            <p>You rolled 1 your turn is over</p>
+        </div>
+        <ul>'s Total Score:
           <li id="totalScore"></li>
         </ul>
       </div>

@@ -4,7 +4,6 @@ function Player(name){
   this.totalScore = 0;
   this.roll = 0
 }
-var player1= new Player("Kristen");
  Player.prototype.dieRoll = function(){
   this.roll = Math.floor(Math.random() * 6) + 1;
   return this.roll;
@@ -20,7 +19,6 @@ Player.prototype.checkRoll = function(){
     return false;
   }else{
     this.storeRoll();
-    console.log(this.turnScore);
     return true
   }
 }
@@ -44,3 +42,30 @@ function computerTurn (){
   computer.endTurn();
   return computer.totalScore;
 }
+
+$(function() {
+  $("#playerName").submit(function(event) {
+    event.preventDefault();
+    var player1 = new Player($("#name").val());
+    $("ul").prepend(player1.name);
+    $("#hidden-game").show();
+    $("#totalScore").text(player1.totalScore);
+    $(".option").click(function(){
+      if($(this).val()=== "roll") {
+        player1.dieRoll();
+        $("#roll").text(player1.roll);
+        var check = player1.checkRoll();
+        $("#turnScore").text(player1.turnScore);
+        if (!check) {
+          player1.endTurn();
+          $("#totalScore").text(player1.totalScore);
+          $("#endturn").show();
+          $("#turn").hide();
+        }
+      }else if ($(this).val()=== "hold") {
+        player1.endTurn();
+        $("#totalScore").text(player1.totalScore);
+      }
+    })
+  });
+});
