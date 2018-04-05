@@ -11,12 +11,15 @@ button {
 }
 body{
   text-align: center;
-  background-image: url("../img/pig1.jpeg");
+  background-image: url("../img/pig2.jpg");
 }
 ul {
   list-style-type: none;
 }
-h1, h3, label, .runningScore{
+h1, h3{
   background-color: rgb(244, 217, 230, .5);
   margin: auto;
+}
+#endGame {
+  font-size: 30px;
 }

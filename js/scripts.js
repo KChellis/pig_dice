@@ -127,6 +127,8 @@ $(function() {
         }
       }else if ($(this).val()=== "hold") { //handles if the player chooses to hold
         activePlayer.endTurn();
+        $("#runningScore").text("");
+        $("#runningScore").prepend("<li>Total: <span class ='turnScore'></span></li>");
         if (activePlayer.totalScore >= winScore) { //checks active player's score to see if they win
           $("#endGame").show();
           $("#game").hide();
@@ -144,29 +146,25 @@ $(function() {
         }else{
           computerTurnHard();
         }
+        $("#runningScore").text("");
         $(totalScore).text(activePlayer.totalScore);
         if (activePlayer.totalScore >= winScore) { //checks active player's score to see if they win
           $("#endGame").show();
           $("#game").hide();
         }
       }
-
     });
     $("#nextTurn").click(function() { //changes the active player
       if (/computer/.test(choice) && activePlayer === player1) {
-        $("#endTurn").hide();
-        $("#nextTurn").hide();
-        $("#roll1").hide();
         $("#turn").hide();
-        $("#firstRoll").hide();
         $("#hal").show();
       }else {
-        $("#endTurn").hide();
-        $("#nextTurn").hide();
-        $("#roll1").hide();
         $("#turn").show();
-        $("#firstRoll").hide();
       }
+      $("#firstRoll").hide();
+      $("#endTurn").hide();
+      $("#nextTurn").hide();
+      $("#roll1").hide();
       var temp =activePlayer;
       activePlayer=passivePlayer;
       passivePlayer = temp;
